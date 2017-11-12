@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css?family=Slabo+27px');
+@import url('https://fonts.googleapis.com/css?family=Germania+One|Slabo+27px');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+
+body{
+    background-color: white;
+}
+
+.App {
+  font-family: 'Roboto';
+  width: 1200px;
+  margin: auto;
+  font-weight: 300;
+}
+
+.App .navigation{
+  padding: 20px 50px;
+  text-align: center;
+}
+
+.App .navigation .logo{
+  font-family: 'Roboto';
+  font-weight: 500;
+  color: #00BCD4;
+  font-size: 35px;
+  display: inline-block;
+}
+
+.App .navigation .add-post {
+  float: right;
+  border: 1px #dadada solid;
+  background-color: white;
+  padding: 10px 13px;
+  font-size: 15px;
+  border-radius: 22px;
+}
+
+.App .navigation .add-post:hover {
+  background-color: black;
+  color: white;
+}
+
+.App .categories .title {
+  border-bottom: 1px #dadada solid;
+  display: block;
+}
+
+.App .categories .title h1{
+  padding-bottom: 20px;
+  border-bottom: 1px #000000 solid;
+  display: inline-block;
+  margin-bottom: 0px;
+  color: #00BCD4;
+}
+
+.App .categories .posts{
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: 1px solid #dadada;
+}
+
+.App .categories .posts h1{
+  font-size: 20px;
+}
+
+.App .categories .posts .description{
+  color: #a9a9a9;
+  padding-bottom: 5px;
+  font-size: 18px;
+}
+
+.App .categories .posts .date{
+  color: #a9a9a9;
+
+}
+
+.modal {
+  font-family: 'Slabo 27px', serif;
+  position: absolute;
+  top: 40px;
+  left: 200px;
+  right: 200px;
+  bottom: 40px;
+  border: 1px solid rgb(204, 204, 204);
+  background: rgb(255, 255, 255);
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  border-radius: 3px;
+  box-shadow: 0 3px 8px 0 rgba(0,0,0,.24), 0 3px 12px 0 rgba(0,0,0,.12);
+  min-width: 400px;
+}
+
+.modal h1{
+  text-align: center;
+  color: #00BCD4;
+}
+
+.modal input{
+  padding: 15px 0px;
+  width: 100%;
+  margin-left: 10px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.modal .close {
+  position: relative;
+  opacity: 1;
+  font-size: 14px;
+  letter-spacing: 0px;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin: 0px;
+  user-select: none;
+  padding-left: 16px;
+  padding-right: 16px;
+  color: rgb(255, 255, 255);
+}
+.posts .close {
+  margin-top: 20px;
+  border: 1px #dadada solid;
+  background-color: black;
+  color:white;
+  padding: 10px 13px;
+  font-size: 15px;
+  /*border-radius: 22px;*/
+}
+
+.singlePost {
+  text-align: justify;
+  font-size: 20px;
+}
+
+.singlePost h2{
+  text-align: center;
+  font-size: 40px;
+  text-transform: capitalize;
+}
+
+.singlePost .author{
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.singlePost .category {
+  background-color: black;
+  color:white;
+  text-transform: capitalize;
+  display: inline-block;
+}
+
+.singlePost .time{
+  display: inline-block;
+  color: #a9a9a9;
+  font-size: 15px;
+  padding-left: 50px;
+}
+
+.comments{
+  border: 1px #dadada solid;
+}
+
+.comments .close{
+  margin: 20px 10px;
+  border: 1px #dadada solid;
+  background-color: black;
+  color:white;
+  padding: 10px 13px;
+  font-size: 15px;
+  border-radius: 22px;
+}
+
+ .comment{
+  margin: 20px 10px;
+  padding: 10px 20px;
+  border: 1px solid #dadada;
+}
+
+.comment h1{
+  font-size: 20px;
+}
+
+ .comments .description{
+  color: #a9a9a9;
+  padding-bottom: 5px;
+  font-size: 18px;
+}
+
+.comments .date{
+  color: #a9a9a9;
+
+}
+
+.singlePost .close{
+  margin: 20px 10px;
+  border: 1px #dadada solid;
+  background-color: black;
+  color:white;
+  padding: 10px 13px;
+  font-size: 15px;
+  border-radius: 22px;
+}
+
+.vote{
+  display: inline-block;
+  padding-left: 20px;
+}
+
+.close{
+  margin: 20px 10px;
+  border: 1px #dadada solid;
+  background-color: black;
+  color:white;
+  padding: 10px 13px;
+  font-size: 15px;
+  
+}
