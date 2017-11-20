@@ -47,6 +47,7 @@ class SingleComment extends Component{
           <button className="close" onClick={()=>this.props.itemVoteComment(id)}>Like</button>
           <button className="close" onClick={()=>this.props.itemVoteCommentDown(id)}>Dislike</button>
           <button className="close" onClick={()=>this.openCommentModal()}>Edit</button>
+          <Link to={`/posts/${comments.parentId}`} ><button className="close" onClick={()=>(this.props.itemDeleteComment(id))}>Delete</button></Link>
 
         </div>
         {/* //modal to edit Comments */}

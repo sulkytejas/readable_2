@@ -137,11 +137,13 @@ body{
   text-align: center;
   font-size: 40px;
   text-transform: capitalize;
+  color: #fc4482
 }
 
 .singlePost .author{
   text-align: center;
   text-transform: capitalize;
+  color:#c92e62;
 }
 
 .singlePost .category {
@@ -215,5 +217,5 @@ body{
   color:white;
   padding: 10px 13px;
   font-size: 15px;
-  
+
 }

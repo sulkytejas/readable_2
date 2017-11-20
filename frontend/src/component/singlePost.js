@@ -2,14 +2,21 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import Modal from 'react-modal';
-import {fetchSinglePost,AsyncfetchComments,AsyncPostComments,DeleteComment,AsycEditPost,AsyncVotePost,AsyncVotePostDown } from '../actions/'
-
+import {fetchSinglePost,AsyncfetchComments,AsyncPostComments,AsyncVoteComment,AsyncVoteCommentDown,AsycEditComment,DeleteComment,AsycEditPost,AsyncVotePost,AsyncVotePostDown,DeletePost } from '../actions/'
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentAdd from 'material-ui/svg-icons/content/add'
+import TextField from 'material-ui/TextField'
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar'
 
 class SinglePost extends Component{
 
   state={
     openModal: false,
     openModalComment:false,
+    openModalCommentEdit:false,
     body:'',
     author:'',
     title:'',
@@ -33,6 +40,25 @@ class SinglePost extends Component{
    this.setState(()=>({openModalComment: false}));
   }
 
+  openCommentModalEdit = (comment)=>{
+    console.log('comment',comment)
+   this.setState(()=>({
+     openModalCommentEdit: true,
+     id: comment ? comment.id : '',
+     body: comment ? comment.body : ''
+
+   }));
+  }
+
+  closeCommentModalEdit = ()=>{
+   this.setState(()=>({
+     openModalCommentEdit: false,
+     id: '',
+     body: '',
+   }));
+  }
+
+
   componentDidMount(){
     const id = this.props.match.params.id
     this.props.itemFetchSinglePost(id)
@@ -53,36 +79,96 @@ class SinglePost extends Component{
       const {body,author,categories,title} = this.state
       const id = this.props.match.params.id
       comments.sort((a,b) => (b.voteScore - a.voteScore))
+      const style = {
+        paddingRight: 40,
+      };
 
       return(
         <div>
-          <Link to={`/${post.category}`} className="close">Back</Link>
+          <Link to={`/`} className="close">Back</Link>
           <div className="singlePost">
             <h2>{post.title}</h2>
             <p className="author">By {post.author}</p>
-            <p className="body">{post.body}</p>
 
-            <p className="category">{post.category}</p>
-            <p className="time">{post.timestamp}</p>
-            <p className="vote">Score: {post.voteScore}</p>
-            <button className="close" onClick={()=>this.props.itemVotePost(id)}>Like</button>
-            <button className="close" onClick={()=>this.props.itemVotePostDown(id)}>Dislike</button>
-            <button className="close" onClick={()=>this.openCommentModal()}>Edit</button>
+           <Card>
+            <CardHeader
+              title={post.category}
+              subtitle={post.timestamp}
+              actAsExpander={true}
+              showExpandableButton={true}
+            />
+            <CardText>
+              {post.body}
+            </CardText>
+            <CardText>
+              Score: {post.voteScore}
+            </CardText>
+            <CardActions>
+              <FlatButton label="UpVote" onClick={()=>this.props.itemVotePost(id)}/>
+              <FlatButton label="DownVote" onClick={()=>this.props.itemVotePostDown(id)} />
+              <FlatButton label="Edit" onClick={()=>this.openCommentModal()} />
+              <Link to="/"><FlatButton label="Delete" onClick={()=>(this.props.itemDeletePost(post.id))} /></Link>
+            </CardActions>
+          </Card>
+
           </div>
           <div className="comments">
-            <button className="close" onClick={()=>this.openFormModal()}>Add Comment</button>
+            <Toolbar>
+              <ToolbarGroup firstChild={true}>
+                <ToolbarTitle text="Add a comment" style={style} />
+                <FloatingActionButton >
+                    <ContentAdd onClick={()=>this.openFormModal()}/>
+                 </FloatingActionButton>
+              </ToolbarGroup>
+
+            </Toolbar>
             {comments.map((comment)=>(
-              <div className="comment" key={comment.id}>
-                <Link to={'/comments/'+comment.id}><div className="description">{comment.body}</div></Link>
-                <div className="authour">{comment.author}</div>
-                <div className="date">{comment.timestamp}</div>
-                <div className="score"> Score:{comment.voteScore}</div>
-                <div>
-                  <button className="close" onClick={(id)=>this.props.itemDeleteComment(comment.id)}>
-                   Delete
-                  </button>
-                </div>
-              </div>
+              <Card key={comment.id}>
+                <Link to={'/comments/'+comment.id}> <CardTitle title={comment.body} subtitle={comment.author} /></Link>
+
+                <CardText>
+                  {comment.timestamp} / Score: {comment.voteScore}
+                </CardText>
+
+                <CardActions>
+                  <RaisedButton label="Edit" primary={true} onClick={()=>this.openCommentModalEdit(comment)}/>
+                  <RaisedButton label="Delete"  secondary={true} onClick={(id)=>this.props.itemDeleteComment(comment.id)} />
+                  <RaisedButton label="Upvote" onClick={()=>this.props.itemVoteComment(comment.id)} />
+                  <RaisedButton label="DownVote"  backgroundColor="#000000" labelColor="#fff" onClick={()=>this.props.itemVoteCommentDown(comment.id)}  />
+                </CardActions>
+                {/* //modal to edit Comments */}
+                <Modal
+                  isOpen = {this.state.openModalCommentEdit}
+                  onRequestClose = {()=>this.closeCommentModalEdit()}
+                  contentLabel = "Edit a comment"
+                  className='modal'
+                  overlayClassName='overlay'
+                  >
+                  <h1>Edit a Post</h1>
+                  <form>
+                    <TextField
+                      hintText="Body"
+                      floatingLabelText="Body"
+                      value={body}
+                      fullWidth={true}
+                      onChange = {(e)=> this.setState({body:e.target.value})}
+                      ref={(input) => this.input = input}
+                    />
+                    <button
+                      className="close"
+                      onClick={()=>this.closeCommentModal()}>
+                      Close
+                    </button>
+                    <button
+                      className="close"
+                      onClick={()=>this.props.itemEditComment(id,body)}>
+                      Submit
+                    </button>
+                  </form>
+                </Modal>
+            </Card>
+
+
             ))}
           </div>
           {/* //Modal to add comments */}
@@ -95,22 +181,20 @@ class SinglePost extends Component{
             >
             <h1>Add a comment</h1>
             <form>
-                <h2>Author</h2>
-                <input
-                  className='form-author'
-                  type='text'
-                  placeholder='Author'
-                  onChange = {(e)=> this.setState({author:e.target.value})}
-                  ref={(input) => this.input = input}
-                />
-              <h2>Body(Description)</h2>
-              <input
-                className='form-body'
-                type='text'
-                placeholder='Body'
+              <TextField
+                hintText="Author"
+                floatingLabelText="Author"
+                fullWidth={true}
+                onChange = {(e)=> this.setState({author:e.target.value})}
+                ref={(input) => this.input = input}
+              />
+              <TextField
+                hintText="Body"
+                floatingLabelText="Body"
+                fullWidth={true}
                 onChange = {(e)=> this.setState({body:e.target.value})}
                 ref={(input) => this.input = input}
-                />
+              />
               <button
                 className="close"
                 onClick={()=>this.closeFormModal()}>
@@ -135,23 +219,21 @@ class SinglePost extends Component{
             >
             <h1>Edit a Post</h1>
             <form>
-              <h2>Title</h2>
-              <input
-                className='form-title'
-                type='text'
-                value={title}
-                placeholder='Enter Title'
-                onChange = {(e)=> this.setState({title:e.target.value})}
-                ref={(input) => this.input = input}
+                <TextField
+                  hintText="Enter Title"
+                  floatingLabelText="Title"
+                  value={title}
+                  fullWidth={true}
+                  onChange = {(e)=> this.setState({title:e.target.value})}
+                  ref={(input) => this.input = input}
                 />
-              <h2>Body(Description)</h2>
-              <input
-                className='form-body'
-                type='text'
-                placeholder='Body'
-                value={body}
-                onChange = {(e)=> this.setState({body:e.target.value})}
-                ref={(input) => this.input = input}
+                <TextField
+                  hintText="Body"
+                  floatingLabelText="Body"
+                  value={body}
+                  fullWidth={true}
+                  onChange = {(e)=> this.setState({body:e.target.value})}
+                  ref={(input) => this.input = input}
                 />
               <button
                 className="close"
@@ -166,6 +248,8 @@ class SinglePost extends Component{
             </form>
 
           </Modal>
+
+
         </div>
 
       )
@@ -181,9 +265,13 @@ const mapDispatchToProps = (dispatch) => {
     itemFetchComment: (id) => dispatch(AsyncfetchComments(id)),
     itemPostComment: (body,author,postID) => dispatch(AsyncPostComments(body,author,postID)),
     itemDeleteComment: (id) => dispatch(DeleteComment(id)),
+    itemDeletePost: (id) => dispatch(DeletePost(id)),
     itemEditPost:(id,title,body)=>dispatch(AsycEditPost(id,title,body)),
     itemVotePost:(id)=>dispatch(AsyncVotePost(id)),
-    itemVotePostDown:(id)=>dispatch(AsyncVotePostDown(id))
+    itemVotePostDown:(id)=>dispatch(AsyncVotePostDown(id)),
+    itemEditComment:(id,body) => dispatch(AsycEditComment(id,body)),
+    itemVoteComment:(id) =>dispatch(AsyncVoteComment(id)),
+    itemVoteCommentDown:(id) =>dispatch(AsyncVoteCommentDown(id)),
   }
 }
 

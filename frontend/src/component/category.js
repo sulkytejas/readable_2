@@ -128,7 +128,7 @@ class Category extends Component {
               onChange = {(e,index,value)=> this.setState({category:e.target.value})}
               >
                 {categories.map((category)=> (
-                  <MenuItem value={category.name} primaryText={category.name} />
+                  <MenuItem key={category.name} value={category.name} primaryText={category.name} />
                 ))
               }
             </SelectField>

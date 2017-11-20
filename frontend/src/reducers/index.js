@@ -5,13 +5,23 @@ import {ADD_ALL_POSTS,DELETE_POSTS,FETCH_POST,FETCH_COMMENTS,POST_COMMENTS,DELET
 const InitialState =  []
 
 function postState(state=InitialState,action){
-  const {posts,deleted_posts} = action
+  const {posts,deleted_posts,post} = action
   switch (action.type) {
     case ADD_ALL_POSTS:
       return posts;
 
+    case VOTE_POSTS:
+      return state.filter((a)=> a.id !== post.id).concat(post)
+
+    case VOTE_POSTS_DOWN:
+      return state.filter((a)=> a.id !== post.id).concat(post)
+
     case DELETE_POSTS:
       return state.filter(a=> a.id !== deleted_posts.id);
+
+    case EDIT_POST:
+    console.log(post)
+      return post;
 
     default:
       return state
@@ -53,6 +63,15 @@ function commentState(state=[],action){
 
     case DELETE_COMMENTS:
      return state.filter(a=> a.id !== comment.id);
+
+    case EDIT_COMMENT:
+     return comment;
+
+    case VOTE_COMMENT:
+     return state.filter((a)=> a.id !== comment.id).concat(comment)
+
+    case VOTE_COMMENT_DOWN:
+     return state.filter((a)=> a.id !== comment.id).concat(comment)
 
     default:
       return state

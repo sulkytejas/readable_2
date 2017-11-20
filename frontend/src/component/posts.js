@@ -6,35 +6,39 @@ import FontAwesome from 'react-fontawesome'
 import FontIcon from 'material-ui/FontIcon';
 import {blue500, red500, greenA200} from 'material-ui/styles/colors'
 import Modal from 'react-modal'
+import TextField from 'material-ui/TextField'
 
 class Posts extends Component{
 
   state={
     openModalComment:false,
     body:'',
-    title:''
+    title:'',
+    id:''
   }
 
-  openCommentModal = ()=>{
-   this.setState(()=>({openModalComment: true}));
-  }
+  openCommentModal = (post) => {
+    console.log('post', post);
+    this.setState(() => ({
+        openModalComment: true,
+        id: post ? post.id : '',
+        body: post ? post.body : '',
+        title: post ? post.title : ''
+    }));
+}
 
-  closeCommentModal = ()=>{
-   this.setState(()=>({openModalComment: false}));
-  }
-
-  // componentDidUpdate(){
-  //   if (!this.state.body){
-  //     this.setState({body:this.props.post.body})
-  //   }
-  //   if (!this.state.title){
-  //     this.setState({title:this.props.post.title})
-  //   }
-  // }
+closeCommentModal = () => {
+  this.setState(() => ({
+      openModalComment: false,
+      id: '',
+      body: '',
+      title: ''
+  }));
+}
 
     render(){
       const posts = this.props.posts
-      const {title,body} = this.state
+    const { id, title, body } = this.state
 
       return(
         <div>
@@ -45,10 +49,13 @@ class Posts extends Component{
               {post.body}
             </CardText>
             <CardText>
-              {post.timestamp} / Score: {this.props.toPost.voteScore}
+              {post.timestamp} / Score: {post.voteScore}
+            </CardText>
+            <CardText>
+            Comments #:{post.commentCount}
             </CardText>
             <CardActions>
-              <RaisedButton label="Edit" primary={true} onClick={(id)=>this.openCommentModal()}/>
+              <RaisedButton label="Edit" primary={true} onClick={()=>this.openCommentModal(post)}/>
               <RaisedButton label="Delete"  secondary={true} onClick={(id)=>this.props.deletepost(post.id)} />
               <RaisedButton label="Upvote" onClick={(id)=>this.props.toUpVote(post.id)} />
               <RaisedButton label="DownVote"  backgroundColor="#000000" labelColor="#fff" onClick={(id)=>this.props.toDownVote(post.id)} />
@@ -63,24 +70,21 @@ class Posts extends Component{
             >
             <h1>Edit a Post</h1>
             <form>
-              <h2>Title</h2>
-              <input
-                className='form-title'
-                type='text'
-                //  value={post.title}
-                placeholder='Enter Title'
-                 onChange = {(e)=> this.setState({title:e.target.value})}
+
+              <TextField
+                hintText="Body"
+                floatingLabelText="Body"
+                fullWidth={true}
+                onChange = {(e)=> this.setState({body:e.target.value})}
                 ref={(input) => this.input = input}
-                />
-              <h2>Body(Description)</h2>
-              <input
-                className='form-body'
-                type='text'
-                placeholder='Body'
-                //  value={body}
-                 onChange = {(e)=> this.setState({body:e.target.value})}
+              />
+              <TextField
+                hintText="Title"
+                floatingLabelText="Title"
+                fullWidth={true}
+                onChange = {(e)=> this.setState({title:e.target.value})}
                 ref={(input) => this.input = input}
-                />
+              />
               <button
                 className="close"
                 onClick={()=>this.closeCommentModal()}>
@@ -88,7 +92,7 @@ class Posts extends Component{
               </button>
               <button
                 className="close"
-                onClick={(id)=>this.props.editPost(post.id,title,body)}>
+                onClick = {() => this.props.editPost(id, title, body)}>
                 Submit
               </button>
             </form>
