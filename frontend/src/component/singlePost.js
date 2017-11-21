@@ -20,6 +20,7 @@ class SinglePost extends Component{
     body:'',
     author:'',
     title:'',
+    ids:''
   }
 
 
@@ -44,7 +45,7 @@ class SinglePost extends Component{
     console.log('comment',comment)
    this.setState(()=>({
      openModalCommentEdit: true,
-     id: comment ? comment.id : '',
+     ids: comment ? comment.id : '',
      body: comment ? comment.body : ''
 
    }));
@@ -76,7 +77,7 @@ class SinglePost extends Component{
 
     render(){
       const {post,comments} = this.props
-      const {body,author,categories,title} = this.state
+      const {body,author,categories,title,ids} = this.state
       const id = this.props.match.params.id
       comments.sort((a,b) => (b.voteScore - a.voteScore))
       const style = {
@@ -161,7 +162,7 @@ class SinglePost extends Component{
                     </button>
                     <button
                       className="close"
-                      onClick={()=>this.props.itemEditComment(id,body)}>
+                      onClick={()=>this.props.itemEditComment(ids,body)}>
                       Submit
                     </button>
                   </form>
