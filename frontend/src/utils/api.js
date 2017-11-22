@@ -2,7 +2,7 @@ import dateFormat from 'dateformat'
 
 const now = new Date();
 const header = {'Authorization':'test','Accept':'application/json','Content-Type': 'application/json'}
-const apiUrl = "http://localhost:3001"
+
 //Fetch all the categories
 export function getCategories(){
   return fetch("http://localhost:3001/categories", {method:'GET', headers: {'Authorization': 'test','Accept':'application/json'} })

@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import Posts from './posts'
 import{Link} from 'react-router-dom'
-import SingleCategory from './singleCategory'
-import { getCategories,getAllPosts,getPost,sendPost } from '../utils/api'
-import { fetchData,SendPost,DeletePost,fetchSinglePost,AsycEditPost,AsyncVotePost,AsyncVotePostDown} from '../actions/'
+import { getCategories } from '../utils/api'
+import { SendPost,fetchData,DeletePost,AsycEditPost,AsyncVotePost,AsyncVotePostDown} from '../actions/'
 import Modal from 'react-modal'
 import '../App.css';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+import {Card, CardTitle} from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'

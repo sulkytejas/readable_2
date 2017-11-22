@@ -46,7 +46,7 @@ class SingleComment extends Component{
     } else{
       return(
         <div>
-          <Link to={`/${cat}/posts/${comments.parentId}`} className="close">Back</Link>
+          <Link to={`/${cat}/${comments.parentId}`} className="close">Back</Link>
           <div className="singlePost">
             <h2>{comments.title}</h2>
             <p className="author">By {comments.author}</p>
@@ -56,7 +56,7 @@ class SingleComment extends Component{
             <button className="close" onClick={()=>this.props.itemVoteComment(id)}>Like</button>
             <button className="close" onClick={()=>this.props.itemVoteCommentDown(id)}>Dislike</button>
             <button className="close" onClick={()=>this.openCommentModal()}>Edit</button>
-            <Link to={`/${cat}/posts/${comments.parentId}`} ><button className="close" onClick={()=>(this.props.itemDeleteComment(id))}>Delete</button></Link>
+            <Link to={`/${cat}/${comments.parentId}`} ><button className="close" onClick={()=>(this.props.itemDeleteComment(id))}>Delete</button></Link>
 
           </div>
           {/* //modal to edit Comments */}

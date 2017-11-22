@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+import {Card, CardActions,  CardTitle, CardText} from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
-import FontAwesome from 'react-fontawesome'
-import FontIcon from 'material-ui/FontIcon';
-import {blue500, red500, greenA200} from 'material-ui/styles/colors'
 import Modal from 'react-modal'
 import TextField from 'material-ui/TextField'
 
@@ -44,7 +41,7 @@ closeCommentModal = () => {
         <div>
           {posts.map(post=>(
             <Card key={post.id}>
-            <Link to={post.category+'/posts/'+post.id}> <CardTitle title={post.title} subtitle={post.author} /></Link>
+            <Link to={post.category+'/'+post.id}> <CardTitle title={post.title} subtitle={post.author} /></Link>
             <CardText>
               {post.body}
             </CardText>

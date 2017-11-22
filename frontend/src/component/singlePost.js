@@ -3,13 +3,13 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import Modal from 'react-modal';
 import {fetchSinglePost,AsyncfetchComments,AsyncPostComments,AsyncVoteComment,AsyncVoteCommentDown,AsycEditComment,DeleteComment,AsycEditPost,AsyncVotePost,AsyncVotePostDown,DeletePost } from '../actions/'
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 import TextField from 'material-ui/TextField'
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar'
+import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar'
 
 class SinglePost extends Component{
 
@@ -77,7 +77,7 @@ class SinglePost extends Component{
 
     render(){
       const {post,comments} = this.props
-      const {body,author,categories,title,ids} = this.state
+      const {body,author,title,ids} = this.state
       const id = this.props.match.params.id
       comments.sort((a,b) => (b.voteScore - a.voteScore))
       const style = {

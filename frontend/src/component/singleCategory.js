@@ -4,7 +4,6 @@ import { getCategories } from '../utils/api'
 import { fetchData,DeletePost,AsycEditPost,AsyncVotePost,AsyncVotePostDown } from '../actions/'
 import Posts from './posts'
 import{Link} from 'react-router-dom'
-import {history} from 'history'
 
 class SingleCategory extends Component{
   state={
