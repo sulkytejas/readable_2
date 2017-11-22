@@ -71,9 +71,10 @@ class Category extends Component {
           </div>
           {categories.map((category)=> (
           <div className="categories" key={category.name}>
-            {/* <Link to={category.path}  className="title" ><h1>{category.name}</h1></Link> */}
+
             <Card title={category.name} style={cardStyle}>
-               <CardTitle title={category.name} />
+              <Link to={category.path}  className="title" > <CardTitle title={category.name} /></Link>
+
               <Posts
                 posts={posts.filter((a)=> a.category === category.name).sort((a,b)=>(b.voteScore-a.voteScore))}
                 toPost = {this.props.singlePost}

@@ -22,8 +22,8 @@ class App extends Component {
           </div>
          <Route exact path="/" component={Category} />
          <Route exact path="/:category" component={SingleCategory} />
-         <Route exact path="/posts/:id" component={SinglePost}/>
-         <Route exact path="/comments/:id" component={SingleComment}/>
+         <Route exact path="/:category/posts/:id" component={SinglePost}/>
+         <Route exact path="/:category/comments/:id" component={SingleComment}/>
         </div>
       </MuiThemeProvider>
 

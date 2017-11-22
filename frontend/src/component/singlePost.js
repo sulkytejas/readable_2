@@ -67,12 +67,12 @@ class SinglePost extends Component{
   }
 
   componentDidUpdate(){
-    if (!this.state.body){
-      this.setState({body:this.props.post.body})
-    }
-    if (!this.state.title){
-      this.setState({title:this.props.post.title})
-    }
+    // if (!this.state.body){
+    //   this.setState({body:this.props.post.body})
+    // }
+    // if (!this.state.title){
+    //   this.setState({title:this.props.post.title})
+    // }
   }
 
     render(){
@@ -84,176 +84,186 @@ class SinglePost extends Component{
         paddingRight: 40,
       };
 
-      return(
-        <div>
-          <Link to={`/`} className="close">Back</Link>
-          <div className="singlePost">
-            <h2>{post.title}</h2>
-            <p className="author">By {post.author}</p>
-
-           <Card>
-            <CardHeader
-              title={post.category}
-              subtitle={post.timestamp}
-              actAsExpander={true}
-              showExpandableButton={true}
-            />
-            <CardText>
-              {post.body}
-            </CardText>
-            <CardText>
-              Score: {post.voteScore}
-            </CardText>
-            <CardActions>
-              <FlatButton label="UpVote" onClick={()=>this.props.itemVotePost(id)}/>
-              <FlatButton label="DownVote" onClick={()=>this.props.itemVotePostDown(id)} />
-              <FlatButton label="Edit" onClick={()=>this.openCommentModal()} />
-              <Link to="/"><FlatButton label="Delete" onClick={()=>(this.props.itemDeletePost(post.id))} /></Link>
-            </CardActions>
-          </Card>
-
+      if (!post.title){
+        return(
+          <div>
+            <h1>The post has been deleted</h1>
           </div>
-          <div className="comments">
-            <Toolbar>
-              <ToolbarGroup firstChild={true}>
-                <ToolbarTitle text="Add a comment" style={style} />
-                <FloatingActionButton >
-                    <ContentAdd onClick={()=>this.openFormModal()}/>
-                 </FloatingActionButton>
-              </ToolbarGroup>
+        )
+      } else{
+        return(
+          <div>
+            <Link to={`/`} className="close">Back</Link>
+            <div className="singlePost">
+              <h2>{post.title}</h2>
+              <p className="author">By {post.author}</p>
 
-            </Toolbar>
-            {comments.map((comment)=>(
-              <Card key={comment.id}>
-                <Link to={'/comments/'+comment.id}> <CardTitle title={comment.body} subtitle={comment.author} /></Link>
-
-                <CardText>
-                  {comment.timestamp} / Score: {comment.voteScore}
-                </CardText>
-
-                <CardActions>
-                  <RaisedButton label="Edit" primary={true} onClick={()=>this.openCommentModalEdit(comment)}/>
-                  <RaisedButton label="Delete"  secondary={true} onClick={(id)=>this.props.itemDeleteComment(comment.id)} />
-                  <RaisedButton label="Upvote" onClick={()=>this.props.itemVoteComment(comment.id)} />
-                  <RaisedButton label="DownVote"  backgroundColor="#000000" labelColor="#fff" onClick={()=>this.props.itemVoteCommentDown(comment.id)}  />
-                </CardActions>
-                {/* //modal to edit Comments */}
-                <Modal
-                  isOpen = {this.state.openModalCommentEdit}
-                  onRequestClose = {()=>this.closeCommentModalEdit()}
-                  contentLabel = "Edit a comment"
-                  className='modal'
-                  overlayClassName='overlay'
-                  >
-                  <h1>Edit a Post</h1>
-                  <form>
-                    <TextField
-                      hintText="Body"
-                      floatingLabelText="Body"
-                      value={body}
-                      fullWidth={true}
-                      onChange = {(e)=> this.setState({body:e.target.value})}
-                      ref={(input) => this.input = input}
-                    />
-                    <button
-                      className="close"
-                      onClick={()=>this.closeCommentModal()}>
-                      Close
-                    </button>
-                    <button
-                      className="close"
-                      onClick={()=>this.props.itemEditComment(ids,body)}>
-                      Submit
-                    </button>
-                  </form>
-                </Modal>
+             <Card>
+              <CardHeader
+                title={post.category}
+                subtitle={post.timestamp}
+                actAsExpander={true}
+                showExpandableButton={true}
+              />
+              <CardText>
+                {post.body}
+              </CardText>
+              <CardText>
+                Score: {post.voteScore}
+              </CardText>
+              <CardActions>
+                <FlatButton label="UpVote" onClick={()=>this.props.itemVotePost(id)}/>
+                <FlatButton label="DownVote" onClick={()=>this.props.itemVotePostDown(id)} />
+                <FlatButton label="Edit" onClick={()=>this.openCommentModal()} />
+                <Link to="/"><FlatButton label="Delete" onClick={()=>(this.props.itemDeletePost(post.id))} /></Link>
+              </CardActions>
             </Card>
 
+            </div>
+            <div className="comments">
+              <Toolbar>
+                <ToolbarGroup firstChild={true}>
+                  <ToolbarTitle text="Add a comment" style={style} />
+                  <FloatingActionButton >
+                      <ContentAdd onClick={()=>this.openFormModal()}/>
+                   </FloatingActionButton>
+                </ToolbarGroup>
 
-            ))}
-          </div>
-          {/* //Modal to add comments */}
-          <Modal
-            isOpen = {this.state.openModal}
-            onRequestClose = {()=>this.closeFormModal()}
-            contentLabel = "Create a Post"
-            className='modal'
-            overlayClassName='overlay'
-            >
-            <h1>Add a comment</h1>
-            <form>
-              <TextField
-                hintText="Author"
-                floatingLabelText="Author"
-                fullWidth={true}
-                onChange = {(e)=> this.setState({author:e.target.value})}
-                ref={(input) => this.input = input}
-              />
-              <TextField
-                hintText="Body"
-                floatingLabelText="Body"
-                fullWidth={true}
-                onChange = {(e)=> this.setState({body:e.target.value})}
-                ref={(input) => this.input = input}
-              />
-              <button
-                className="close"
-                onClick={()=>this.closeFormModal()}>
-                Close
-              </button>
-              <button
-                className="close"
-                onClick={()=> (this.props.itemPostComment(body,author,id))}>
-                Submit
-              </button>
-            </form>
+              </Toolbar>
+              {comments.map((comment)=>(
+                <Card key={comment.id}>
+                  <Link to={'/'+post.category+'/comments/'+comment.id}> <CardTitle title={comment.body} subtitle={comment.author} /></Link>
 
-          </Modal>
+                  <CardText>
+                    {comment.timestamp} / Score: {comment.voteScore}
+                  </CardText>
 
-          {/* //modal to edit Posts */}
-          <Modal
-            isOpen = {this.state.openModalComment}
-            onRequestClose = {()=>this.closeCommentModal()}
-            contentLabel = "Edit a comment"
-            className='modal'
-            overlayClassName='overlay'
-            >
-            <h1>Edit a Post</h1>
-            <form>
+                  <CardActions>
+                    <RaisedButton label="Edit" primary={true} onClick={()=>this.openCommentModalEdit(comment)}/>
+                    <RaisedButton label="Delete"  secondary={true} onClick={(id)=>this.props.itemDeleteComment(comment.id)} />
+                    <RaisedButton label="Upvote" onClick={()=>this.props.itemVoteComment(comment.id)} />
+                    <RaisedButton label="DownVote"  backgroundColor="#000000" labelColor="#fff" onClick={()=>this.props.itemVoteCommentDown(comment.id)}  />
+                  </CardActions>
+                  {/* //modal to edit Comments */}
+                  <Modal
+                    isOpen = {this.state.openModalCommentEdit}
+                    onRequestClose = {()=>this.closeCommentModalEdit()}
+                    contentLabel = "Edit a comment"
+                    className='modal'
+                    overlayClassName='overlay'
+                    >
+                    <h1>Edit a Post</h1>
+                    <form>
+                      <TextField
+                        hintText="Body"
+                        floatingLabelText="Body"
+                        value={body}
+                        fullWidth={true}
+                        onChange = {(e)=> this.setState({body:e.target.value})}
+                        ref={(input) => this.input = input}
+                      />
+                      <button
+                        className="close"
+                        onClick={()=>this.closeCommentModal()}>
+                        Close
+                      </button>
+                      <button
+                        className="close"
+                        onClick={()=>this.props.itemEditComment(ids,body)}>
+                        Submit
+                      </button>
+                    </form>
+                  </Modal>
+              </Card>
+
+
+              ))}
+            </div>
+            {/* //Modal to add comments */}
+            <Modal
+              isOpen = {this.state.openModal}
+              onRequestClose = {()=>this.closeFormModal()}
+              contentLabel = "Create a Post"
+              className='modal'
+              overlayClassName='overlay'
+              >
+              <h1>Add a comment</h1>
+              <form>
                 <TextField
-                  hintText="Enter Title"
-                  floatingLabelText="Title"
-                  value={title}
+                  hintText="Author"
+                  floatingLabelText="Author"
                   fullWidth={true}
-                  onChange = {(e)=> this.setState({title:e.target.value})}
+                  onChange = {(e)=> this.setState({author:e.target.value})}
                   ref={(input) => this.input = input}
                 />
                 <TextField
                   hintText="Body"
                   floatingLabelText="Body"
-                  value={body}
                   fullWidth={true}
                   onChange = {(e)=> this.setState({body:e.target.value})}
                   ref={(input) => this.input = input}
                 />
-              <button
-                className="close"
-                onClick={()=>this.closeCommentModal()}>
-                Close
-              </button>
-              <button
-                className="close"
-                onClick={()=>this.props.itemEditPost(id,title,body)}>
-                Submit
-              </button>
-            </form>
+                <button
+                  className="close"
+                  onClick={()=>this.closeFormModal()}>
+                  Close
+                </button>
+                <button
+                  className="close"
+                  onClick={()=> (this.props.itemPostComment(body,author,id))}>
+                  Submit
+                </button>
+              </form>
 
-          </Modal>
+            </Modal>
+
+            {/* //modal to edit Posts */}
+            <Modal
+              isOpen = {this.state.openModalComment}
+              onRequestClose = {()=>this.closeCommentModal()}
+              contentLabel = "Edit a comment"
+              className='modal'
+              overlayClassName='overlay'
+              >
+              <h1>Edit a Post</h1>
+              <form>
+                  <TextField
+                    hintText="Enter Title"
+                    floatingLabelText="Title"
+                    value={title}
+                    fullWidth={true}
+                    onChange = {(e)=> this.setState({title:e.target.value})}
+                    ref={(input) => this.input = input}
+                  />
+                  <TextField
+                    hintText="Body"
+                    floatingLabelText="Body"
+                    value={body}
+                    fullWidth={true}
+                    onChange = {(e)=> this.setState({body:e.target.value})}
+                    ref={(input) => this.input = input}
+                  />
+                <button
+                  className="close"
+                  onClick={()=>this.closeCommentModal()}>
+                  Close
+                </button>
+                <button
+                  className="close"
+                  onClick={()=>this.props.itemEditPost(id,title,body)}>
+                  Submit
+                </button>
+              </form>
+
+            </Modal>
 
 
-        </div>
+          </div>
 
-      )
+        )
+      }
+
+
     }
 }
 

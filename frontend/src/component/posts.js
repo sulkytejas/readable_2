@@ -44,7 +44,7 @@ closeCommentModal = () => {
         <div>
           {posts.map(post=>(
             <Card key={post.id}>
-            <Link to={'/posts/'+post.id}> <CardTitle title={post.title} subtitle={post.author} /></Link>
+            <Link to={post.category+'/posts/'+post.id}> <CardTitle title={post.title} subtitle={post.author} /></Link>
             <CardText>
               {post.body}
             </CardText>
